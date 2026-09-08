@@ -51,7 +51,7 @@
         }
 
         body {
-            background-color: #f3efe6;
+            background-color: #000000;
             font-family: 'Tajawal', sans-serif;
             color: #5c4a28;
             overflow-x: hidden;
@@ -140,10 +140,10 @@
         متصفحك لا يدعم تشغيل الصوت.
     </audio>
 
-    <!-- FULLSCREEN VIDEO COVER OVERLAY -->
+    <!-- FULLSCREEN VIDEO COVER OVERLAY (LOADS IMMEDIATELY) -->
     <div id="videoCover" class="fixed inset-0 z-50 flex items-center justify-center bg-black overflow-hidden select-none">
-        <!-- Muted video with full mobile inline attributes -->
-        <video id="coverVideo" playsinline webkit-playsinline muted preload="auto" class="w-full h-full object-cover pointer-events-none">
+        <!-- Autoplay muted inline cover video -->
+        <video id="coverVideo" autoplay loop muted playsinline webkit-playsinline preload="auto" class="w-full h-full object-cover pointer-events-none">
             <source src="images/cover.mp4" type="video/mp4">
             متصفحك لا يدعم تشغيل الفيديو.
         </video>
@@ -542,6 +542,17 @@
         const sealClickArea = document.getElementById('sealClickArea');
         const bgMusic = document.getElementById('bgMusic');
 
+        // Instant play video on DOM Load for Mobile Browsers
+        window.addEventListener('DOMContentLoaded', () => {
+            coverVideo.muted = true;
+            const playPromise = coverVideo.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(() => {
+                    // Fallback for strict browser restrictions
+                });
+            }
+        });
+
         // Function to smoothly hide video cover
         function dismissCover() {
             if (videoCover) {
@@ -560,26 +571,21 @@
                 e.stopPropagation();
             }
 
-            // Mute video to pass autoplay policies, un-mute audio if required
-            coverVideo.muted = true;
-            
-            // Simultaneous Trigger for Audio & Video
+            // Ensure background music starts smoothly upon tap
             const playAudioPromise = bgMusic.play();
-            const playVideoPromise = coverVideo.play();
-
             if (playAudioPromise !== undefined) {
-                playAudioPromise.catch(err => console.log("Audio autoplay prevented:", err));
+                playAudioPromise.catch(err => console.log("Audio play blocked:", err));
             }
 
+            // Ensure cover video keeps playing seamlessly
+            coverVideo.muted = true;
+            const playVideoPromise = coverVideo.play();
             if (playVideoPromise !== undefined) {
-                playVideoPromise.catch(err => {
-                    console.log("Video play failed:", err);
-                    dismissCover();
-                });
+                playVideoPromise.catch(() => dismissCover());
             }
         }
 
-        // Pointerdown listener for instant 0ms touch response on phones
+        // Pointerdown listener for instant 0ms touch response on mobile phones
         sealClickArea.addEventListener('pointerdown', handleUserInteraction, { once: true, passive: false });
         sealClickArea.addEventListener('touchstart', handleUserInteraction, { once: true, passive: false });
         sealClickArea.addEventListener('click', handleUserInteraction, { once: true });
