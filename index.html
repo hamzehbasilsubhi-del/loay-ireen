@@ -57,7 +57,6 @@
             overflow-x: hidden;
         }
         
-        /* Prevent Arabic letter disconnection on mobile WebKit */
         .font-tajawal, [lang="ar"], body, h1, h2, h3, h4, p, span, div, a {
             letter-spacing: normal !important;
         }
@@ -94,13 +93,11 @@
             transform: translateY(0);
         }
 
-        /* Staggered delay for countdown circles */
         .delay-circle-1 { transition-delay: 0.05s; }
         .delay-circle-2 { transition-delay: 0.15s; }
         .delay-circle-3 { transition-delay: 0.25s; }
         .delay-circle-4 { transition-delay: 0.35s; }
 
-        /* SVG Circular Progress Ring */
         .circle-container {
             position: relative;
             width: 72px;
@@ -121,7 +118,6 @@
             transition: stroke-dashoffset 0.8s ease;
         }
 
-        /* Radio Button Styling for RSVP */
         .custom-radio:checked + label {
             border-color: #b89252;
             background-color: rgba(184, 146, 82, 0.08);
@@ -137,19 +133,21 @@
     <!-- BACKGROUND AUDIO -->
     <audio id="bgMusic" loop preload="auto" playsinline>
         <source src="images/music.mp3" type="audio/mpeg">
-        متصفحك لا يدعم تشغيل الصوت.
     </audio>
 
-    <!-- FULLSCREEN VIDEO COVER OVERLAY (LOADS IMMEDIATELY) -->
-    <div id="videoCover" class="fixed inset-0 z-50 flex items-center justify-center bg-black overflow-hidden select-none">
-        <!-- Autoplay muted inline cover video -->
-        <video id="coverVideo" autoplay loop muted playsinline webkit-playsinline preload="auto" class="w-full h-full object-cover pointer-events-none">
+    <!-- FULLSCREEN COVER OVERLAY (STATIC POSTER + VIDEO) -->
+    <div id="videoCover" class="fixed inset-0 z-50 flex items-center justify-center bg-[#eae3dc] overflow-hidden select-none">
+        
+        <!-- 1. INSTANT STATIC POSTER (PERFECT PREVENTER FOR BLACK SCREEN) -->
+        <img id="posterImage" src="images/cover-poster.jpg" alt="غلاف الدعوة" class="absolute inset-0 w-full h-full object-cover z-10 transition-opacity duration-300">
+
+        <!-- 2. VIDEO PLAYER (STARTS UPON USER TAP) -->
+        <video id="coverVideo" playsinline webkit-playsinline preload="auto" class="absolute inset-0 w-full h-full object-cover z-0 hidden">
             <source src="images/cover.mp4" type="video/mp4">
-            متصفحك لا يدعم تشغيل الفيديو.
         </video>
 
-        <!-- FULL-SCREEN INVISIBLE TOUCH/CLICK LAYER -->
-        <div id="sealClickArea" class="fixed inset-0 z-50 w-full h-full cursor-pointer bg-transparent"></div>
+        <!-- 3. INVISIBLE FULL-SCREEN TAP LAYER -->
+        <div id="sealClickArea" class="absolute inset-0 z-20 w-full h-full cursor-pointer bg-transparent"></div>
     </div>
 
     <!-- Mobile Screen Frame Container (Max Width 430px) -->
@@ -340,11 +338,9 @@
                           stroke-linecap="round"/>
                 </svg>
 
-                <!-- MOVING GOLD SEAL WITH VECTOR WHITE HEART -->
                 <div id="pathSeal" class="absolute z-20 top-0 left-0 -ml-5 -mt-5 w-10 h-10 transition-transform duration-75 ease-linear pointer-events-none drop-shadow-md">
                     <div class="w-full h-full rounded-full bg-gradient-to-tr from-[#856430] via-[#b89252] to-[#e5d5b1] border border-gold-200/80 flex items-center justify-center shadow-md">
                         <div class="w-7 h-7 rounded-full border border-gold-100/60 flex items-center justify-center bg-transparent">
-                            <!-- White Vector Heart Icon -->
                             <svg class="w-3.5 h-3.5 fill-white text-white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                             </svg>
@@ -538,59 +534,53 @@
         lucide.createIcons();
 
         const videoCover = document.getElementById('videoCover');
+        const posterImage = document.getElementById('posterImage');
         const coverVideo = document.getElementById('coverVideo');
         const sealClickArea = document.getElementById('sealClickArea');
         const bgMusic = document.getElementById('bgMusic');
 
-        // Instant play video on DOM Load for Mobile Browsers
-        window.addEventListener('DOMContentLoaded', () => {
-            coverVideo.muted = true;
-            const playPromise = coverVideo.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(() => {
-                    // Fallback for strict browser restrictions
-                });
-            }
-        });
-
-        // Function to smoothly hide video cover
         function dismissCover() {
             if (videoCover) {
                 videoCover.classList.add('fade-out');
             }
         }
 
-        // Optimized Touch & Interaction Trigger for Mobile Safari / Chrome
-        let isStarted = false;
+        let isInteractionHandled = false;
+
         function handleUserInteraction(e) {
-            if (isStarted) return;
-            isStarted = true;
+            if (isInteractionHandled) return;
+            isInteractionHandled = true;
 
             if (e) {
                 e.preventDefault();
                 e.stopPropagation();
             }
 
-            // Ensure background music starts smoothly upon tap
+            // 1. Play Background Music
             const playAudioPromise = bgMusic.play();
             if (playAudioPromise !== undefined) {
                 playAudioPromise.catch(err => console.log("Audio play blocked:", err));
             }
 
-            // Ensure cover video keeps playing seamlessly
-            coverVideo.muted = true;
+            // 2. Hide Poster and Play Cover Video immediately on touch
+            posterImage.style.opacity = '0';
+            coverVideo.classList.remove('hidden');
+            coverVideo.muted = false; // Enable audio for cover video if needed
+
             const playVideoPromise = coverVideo.play();
             if (playVideoPromise !== undefined) {
-                playVideoPromise.catch(() => dismissCover());
+                playVideoPromise.catch(() => {
+                    dismissCover();
+                });
             }
         }
 
-        // Pointerdown listener for instant 0ms touch response on mobile phones
+        // Tap/Click Listener on invisible area
         sealClickArea.addEventListener('pointerdown', handleUserInteraction, { once: true, passive: false });
         sealClickArea.addEventListener('touchstart', handleUserInteraction, { once: true, passive: false });
         sealClickArea.addEventListener('click', handleUserInteraction, { once: true });
 
-        // Auto-close cover overlay when video finishes playing
+        // Auto dismiss overlay when video finishes
         coverVideo.addEventListener('ended', dismissCover);
 
         // Scroll Reveal Observer
@@ -641,7 +631,7 @@
             document.getElementById('thankYouMessage').classList.remove('hidden');
         });
 
-        // Smooth Path Seal Position Calculation for Mobile
+        // Smooth Path Seal Position Calculation
         const programmeSection = document.getElementById('programme');
         const path = document.getElementById('programmePath');
         const seal = document.getElementById('pathSeal');
