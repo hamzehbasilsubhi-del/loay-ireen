@@ -49,6 +49,7 @@
             background-color: #f3efe6;
             font-family: 'Tajawal', sans-serif;
             color: #5c4a28;
+            -webkit-tap-highlight-color: transparent;
         }
         .font-free-calligraphy {
             font-family: 'Aref Ruqaa', serif;
@@ -122,13 +123,13 @@
 
     <!-- FULLSCREEN VIDEO COVER OVERLAY -->
     <div id="videoCover" class="fixed inset-0 z-50 flex items-center justify-center bg-black overflow-hidden">
-        <!-- Muted video, preloaded, with playsinline for mobile -->
-        <video id="coverVideo" playsinline muted preload="auto" class="w-full h-full object-cover">
+        <!-- Muted video with mobile fullscreen prevention attributes -->
+        <video id="coverVideo" playsinline webkit-playsinline muted preload="auto" class="w-full h-full object-cover">
             <source src="images/cover.mp4" type="video/mp4">
             متصفحك لا يدعم تشغيل الفيديو.
         </video>
 
-        <!-- Invisible Overlay Button (Click Anywhere to Play) -->
+        <!-- Invisible Overlay Touch Area (Click/Touch Anywhere to Play) -->
         <div id="sealClickArea" class="absolute inset-0 w-full h-full cursor-pointer z-20"></div>
 
         <!-- Skip Button -->
@@ -142,7 +143,7 @@
 
         <!-- HERO BACKGROUND VIDEO ONLY -->
         <section class="relative w-full h-[320px] overflow-hidden">
-            <video autoplay loop muted playsinline preload="auto" class="absolute inset-0 w-full h-full object-cover z-0">
+            <video autoplay loop muted playsinline webkit-playsinline preload="auto" class="absolute inset-0 w-full h-full object-cover z-0">
                 <source src="images/hero-bg.mp4" type="video/mp4">
             </video>
             <div class="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-[#eae3dc] z-0 pointer-events-none"></div>
@@ -414,7 +415,6 @@
                     </div>
                 </div>
 
-                <!-- شبكة 3 صور -->
                 <div class="grid grid-cols-3 gap-2.5 my-4">
                     <div class="aspect-square rounded-2xl overflow-hidden border border-gold-500/40 shadow-sm bg-gold-100/30 p-1">
                         <img src="images/memory-1.jpg" alt="لحظة من الذاكرة 1" class="w-full h-full object-cover rounded-xl">
@@ -524,24 +524,46 @@
         const sealClickArea = document.getElementById('sealClickArea');
         const skipBtn = document.getElementById('skipBtn');
 
-        // Function to smoothly hide video cover and navigate to invitation page
+        // Force Video Load to display first frame as poster on mobile screens
+        window.addEventListener('DOMContentLoaded', () => {
+            coverVideo.muted = true;
+            coverVideo.load();
+        });
+
+        // Function to smoothly hide video cover
         function dismissCover() {
             videoCover.classList.add('fade-out');
         }
 
-        // Invisible button click handler: Play video upon clicking anywhere
-        sealClickArea.addEventListener('click', () => {
-            sealClickArea.style.pointerEvents = 'none'; // Prevent re-triggering
-            coverVideo.play().catch(err => {
-                console.log("Playback error:", err);
-            });
-        });
+        // Mobile touch & click handler to play video reliably
+        async function playCoverVideo(e) {
+            if (e) e.preventDefault();
+            
+            sealClickArea.style.pointerEvents = 'none'; // Prevent double trigger
+            coverVideo.muted = true; // Ensure muted state for mobile autoplay policy compliance
 
-        // Automatically transition to the main invitation page when video ends
+            try {
+                await coverVideo.play();
+            } catch (err) {
+                console.log("Mobile playback restriction:", err);
+                // Fallback: If video playback fails entirely, dismiss cover directly
+                dismissCover();
+            }
+        }
+
+        // Listen for all mobile touch and click events
+        sealClickArea.addEventListener('touchstart', playCoverVideo, { passive: false, once: true });
+        sealClickArea.addEventListener('pointerdown', playCoverVideo, { once: true });
+        sealClickArea.addEventListener('click', playCoverVideo, { once: true });
+
+        // Automatically transition to main invitation page when video finishes
         coverVideo.addEventListener('ended', dismissCover);
 
         // Skip button handler
-        skipBtn.addEventListener('click', dismissCover);
+        skipBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dismissCover();
+        });
 
         // Scroll Reveal Animation
         const revealElements = document.querySelectorAll('.reveal');
