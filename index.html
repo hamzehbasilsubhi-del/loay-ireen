@@ -57,7 +57,7 @@
             font-family: 'Great Vibes', cursive;
         }
 
-        /* Video Cover Overlay Transition & Zero-Lag Optimization */
+        /* Video Cover Overlay Transition */
         #videoCover {
             transition: opacity 0.8s ease-in-out, visibility 0.8s;
             will-change: opacity, visibility;
@@ -120,14 +120,15 @@
 </head>
 <body class="bg-[#f3efe6] text-bronze antialiased flex justify-center items-center min-h-screen sm:py-6 font-tajawal">
 
-    <!-- FULLSCREEN VIDEO COVER OVERLAY (OPTIMIZED FOR ZERO LAG) -->
+    <!-- FULLSCREEN VIDEO COVER OVERLAY -->
     <div id="videoCover" class="fixed inset-0 z-50 flex items-center justify-center bg-black overflow-hidden">
-        <video id="coverVideo" playsinline preload="auto" class="w-full h-full object-cover">
+        <!-- Muted video, preloaded, with playsinline for mobile -->
+        <video id="coverVideo" playsinline muted preload="auto" class="w-full h-full object-cover">
             <source src="images/cover.mp4" type="video/mp4">
             متصفحك لا يدعم تشغيل الفيديو.
         </video>
 
-        <!-- Fullscreen Click Area (No Animated Circle) -->
+        <!-- Invisible Overlay Button (Click Anywhere to Play) -->
         <div id="sealClickArea" class="absolute inset-0 w-full h-full cursor-pointer z-20"></div>
 
         <!-- Skip Button -->
@@ -147,7 +148,7 @@
             <div class="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-[#eae3dc] z-0 pointer-events-none"></div>
         </section>
 
-        <!-- BANNER TEXT & TITLE SECTION (MOVED BELOW VIDEO) -->
+        <!-- BANNER TEXT & TITLE SECTION -->
         <section class="relative z-10 w-full text-center space-y-2 pt-6 pb-4 px-6 bg-[#eae3dc]">
             <p class="text-xs tracking-[0.25em] text-gold-600 font-medium uppercase font-tajawal">حفل زفاف</p>
             <h1 class="text-4xl font-normal font-free-calligraphy text-gold-700 leading-snug">
@@ -518,28 +519,31 @@
     <script>
         lucide.createIcons();
 
-        // Cover Video & Click-to-Play Logic (Instant Smooth Trigger)
         const videoCover = document.getElementById('videoCover');
         const coverVideo = document.getElementById('coverVideo');
         const sealClickArea = document.getElementById('sealClickArea');
         const skipBtn = document.getElementById('skipBtn');
 
+        // Function to smoothly hide video cover and navigate to invitation page
         function dismissCover() {
             videoCover.classList.add('fade-out');
         }
 
-        // Instant play on screen tap/click
+        // Invisible button click handler: Play video upon clicking anywhere
         sealClickArea.addEventListener('click', () => {
-            sealClickArea.style.pointerEvents = 'none';
-            coverVideo.play().catch(e => {
-                console.log("Autoplay error or user interaction needed:", e);
+            sealClickArea.style.pointerEvents = 'none'; // Prevent re-triggering
+            coverVideo.play().catch(err => {
+                console.log("Playback error:", err);
             });
         });
 
+        // Automatically transition to the main invitation page when video ends
         coverVideo.addEventListener('ended', dismissCover);
+
+        // Skip button handler
         skipBtn.addEventListener('click', dismissCover);
 
-        // Scroll Reveal
+        // Scroll Reveal Animation
         const revealElements = document.querySelectorAll('.reveal');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -574,20 +578,20 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // Add to Calendar
+        // Add to Calendar Link
         const calTitle = encodeURIComponent("حفل زفاف لؤي & آيرين");
         const calDetails = encodeURIComponent("نتشرف بحضوركم حفل زفافنا في قصر الإمارات ماندارين أورينتال، أبوظبي.");
         const calLocation = encodeURIComponent("Emirates Palace Mandarin Oriental, Abu Dhabi");
         document.getElementById('addToCalendar').href = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${calTitle}&dates=20261114T153000Z/20261114T200000Z&details=${calDetails}&location=${calLocation}`;
 
-        // RSVP Form
+        // RSVP Form Submission
         document.getElementById('rsvpForm').addEventListener('submit', function(e) {
             e.preventDefault();
             this.classList.add('hidden');
             document.getElementById('thankYouMessage').classList.remove('hidden');
         });
 
-        // Interactive Timeline Seal
+        // Interactive Timeline Seal Animation
         const programmeSection = document.getElementById('programme');
         const path = document.getElementById('programmePath');
         const seal = document.getElementById('pathSeal');
