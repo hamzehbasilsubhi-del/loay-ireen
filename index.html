@@ -51,8 +51,15 @@
             color: #5c4a28;
             -webkit-tap-highlight-color: transparent;
         }
+        
+        /* Prevent Arabic letter disconnection from letter-spacing/tracking */
+        .font-tajawal, [lang="ar"] {
+            letter-spacing: normal !important;
+        }
+
         .font-free-calligraphy {
             font-family: 'Aref Ruqaa', serif;
+            letter-spacing: normal !important;
         }
         .font-sloop {
             font-family: 'Great Vibes', cursive;
@@ -119,7 +126,13 @@
         }
     </style>
 </head>
-<body class="bg-[#f3efe6] text-bronze antialiased flex justify-center items-center min-h-screen sm:py-6 font-tajawal">
+<body class="bg-[#f3efe6] text-bronze antialiased flex justify-center items-center min-h-screen sm:py-6 font-tajawal tracking-normal">
+
+    <!-- BACKGROUND AUDIO -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="images/music.mp3" type="audio/mpeg">
+        متصفحك لا يدعم تشغيل الصوت.
+    </audio>
 
     <!-- FULLSCREEN VIDEO COVER OVERLAY -->
     <div id="videoCover" class="fixed inset-0 z-50 flex items-center justify-center bg-black overflow-hidden">
@@ -129,13 +142,8 @@
             متصفحك لا يدعم تشغيل الفيديو.
         </video>
 
-        <!-- Invisible Overlay Touch Area (Click/Touch Anywhere to Play) -->
+        <!-- Invisible Overlay Touch Area (Click/Touch Anywhere to Play Video & Music) -->
         <div id="sealClickArea" class="absolute inset-0 w-full h-full cursor-pointer z-20"></div>
-
-        <!-- Skip Button -->
-        <button id="skipBtn" class="absolute bottom-6 right-6 z-30 px-4 py-1.5 bg-gold-700/60 hover:bg-gold-700 text-white rounded-full text-xs font-tajawal backdrop-blur-sm transition border border-gold-200/40">
-            تخطي
-        </button>
     </div>
 
     <!-- Mobile Screen Frame Container (Max Width 430px) -->
@@ -151,33 +159,33 @@
 
         <!-- BANNER TEXT & TITLE SECTION -->
         <section class="relative z-10 w-full text-center space-y-2 pt-6 pb-4 px-6 bg-[#eae3dc]">
-            <p class="text-xs tracking-[0.25em] text-gold-600 font-medium uppercase font-tajawal">حفل زفاف</p>
+            <p class="text-xs text-gold-600 font-medium uppercase font-tajawal tracking-normal">حفل زفاف</p>
             <h1 class="text-4xl font-normal font-free-calligraphy text-gold-700 leading-snug">
                 لؤي <span class="text-gold-500 font-light text-3xl">&</span> آيرين
             </h1>
             <div class="flex items-center justify-center my-2 px-4">
                 <img src="images/divider.png" alt="فاصل زخرفي" class="w-full max-w-[140px] h-auto object-contain opacity-85">
             </div>
-            <p class="text-xs tracking-[0.25em] text-gold-700/90 font-medium font-tajawal pt-0.5">14 . 11 . 2026</p>
+            <p class="text-xs text-gold-700/90 font-medium font-tajawal pt-0.5 tracking-normal">14 . 11 . 2026</p>
         </section>
 
         <!-- INVITATION CARD SECTION -->
         <section class="pb-12 pt-4 px-8 text-center bg-[#eae3dc] relative flex flex-col items-center justify-center reveal z-20">
             <div class="space-y-6 max-w-xs mx-auto">
                 <div class="space-y-1">
-                    <p class="text-xs tracking-[0.2em] text-gold-700/70 font-tajawal font-medium uppercase">يتشرف</p>
-                    <p class="text-xs tracking-wider font-medium text-gold-700 uppercase font-tajawal">عائلتا آل الشريف و آل النجار</p>
-                    <p class="text-xs tracking-[0.2em] text-gold-700/70 font-tajawal font-medium uppercase pt-1">بدعوتكم لمشاركتهم فرحة</p>
+                    <p class="text-xs text-gold-700/70 font-tajawal font-medium uppercase tracking-normal">يتشرف</p>
+                    <p class="text-xs font-medium text-gold-700 uppercase font-tajawal tracking-normal">عائلتا آل الشريف و آل النجار</p>
+                    <p class="text-xs text-gold-700/70 font-tajawal font-medium uppercase pt-1 tracking-normal">بدعوتكم لمشاركتهم فرحة</p>
                 </div>
 
                 <div class="py-2">
-                    <p class="text-xs tracking-[0.2em] text-gold-600 font-tajawal font-medium uppercase mb-1">عقد قران وزفاف</p>
+                    <p class="text-xs text-gold-600 font-tajawal font-medium uppercase mb-1 tracking-normal">عقد قران وزفاف</p>
                     <h3 class="text-3xl font-normal font-free-calligraphy text-gold-700">
                         لؤي <span class="text-gold-500 font-light">&</span> آيرين
                     </h3>
                 </div>
 
-                <div class="space-y-2 text-xs font-tajawal text-bronze/85 leading-relaxed font-normal">
+                <div class="space-y-2 text-xs font-tajawal text-bronze/85 leading-relaxed font-normal tracking-normal">
                     <p>وهما يبدآن معاً فصلاً جديداً من العمر.</p>
                     <p>حضوركم يكتمل به فرحنا وتكتمل به أجمل أوقاتنا.</p>
                 </div>
@@ -191,7 +199,7 @@
                     <img src="images/couple.jpg" alt="صورة العروسين" class="w-full h-full object-cover object-center">
                 </div>
             </div>
-            <p class="text-base font-free-calligraphy text-gold-700 leading-relaxed max-w-xs px-2">
+            <p class="text-base font-free-calligraphy text-gold-700 leading-relaxed max-w-xs px-2 tracking-normal">
                 "تَأْبَى الرِّمَاحُ إِذَا اجْتَمَعْنَ تَكَسُّراً، وَإِذَا افْتَرَقْنَ تَكَسَّرَتْ آحَادَا"
             </p>
         </section>
@@ -199,7 +207,7 @@
         <!-- COUNTDOWN TIMER SECTION -->
         <section class="pt-10 pb-4 px-0 text-center bg-[#eae3dc] flex flex-col items-center justify-center">
             <div class="reveal space-y-2 mb-8 px-4">
-                <p class="text-xs tracking-[0.25em] text-gold-700/80 font-medium font-tajawal uppercase">الوقت المتبقي</p>
+                <p class="text-xs text-gold-700/80 font-medium font-tajawal uppercase tracking-normal">الوقت المتبقي</p>
                 <div class="flex items-center justify-center pt-1 px-4">
                     <img src="images/divider.png" alt="فاصل زخرفي" class="w-28 h-auto object-contain opacity-75">
                 </div>
@@ -212,9 +220,9 @@
                             <circle class="circle-bg" cx="40" cy="40" r="36" />
                             <circle class="circle-progress" cx="40" cy="40" r="36" stroke-dasharray="226.19" stroke-dashoffset="180" />
                         </svg>
-                        <span id="days" class="absolute text-base font-tajawal text-bronze font-bold">00</span>
+                        <span id="days" class="absolute text-base font-tajawal text-bronze font-bold tracking-normal">00</span>
                     </div>
-                    <span class="text-xs text-gold-600/90 font-medium font-tajawal mt-3">يوم</span>
+                    <span class="text-xs text-gold-600/90 font-medium font-tajawal mt-3 tracking-normal">يوم</span>
                 </div>
 
                 <div class="flex flex-col items-center reveal delay-circle-2">
@@ -223,9 +231,9 @@
                             <circle class="circle-bg" cx="40" cy="40" r="36" />
                             <circle class="circle-progress" cx="40" cy="40" r="36" stroke-dasharray="226.19" stroke-dashoffset="140" />
                         </svg>
-                        <span id="hours" class="absolute text-base font-tajawal text-bronze font-bold">00</span>
+                        <span id="hours" class="absolute text-base font-tajawal text-bronze font-bold tracking-normal">00</span>
                     </div>
-                    <span class="text-xs text-gold-600/90 font-medium font-tajawal mt-3">ساعة</span>
+                    <span class="text-xs text-gold-600/90 font-medium font-tajawal mt-3 tracking-normal">ساعة</span>
                 </div>
 
                 <div class="flex flex-col items-center reveal delay-circle-3">
@@ -234,9 +242,9 @@
                             <circle class="circle-bg" cx="40" cy="40" r="36" />
                             <circle class="circle-progress" cx="40" cy="40" r="36" stroke-dasharray="226.19" stroke-dashoffset="110" />
                         </svg>
-                        <span id="minutes" class="absolute text-base font-tajawal text-bronze font-bold">00</span>
+                        <span id="minutes" class="absolute text-base font-tajawal text-bronze font-bold tracking-normal">00</span>
                     </div>
-                    <span class="text-xs text-gold-600/90 font-medium font-tajawal mt-3">دقيقة</span>
+                    <span class="text-xs text-gold-600/90 font-medium font-tajawal mt-3 tracking-normal">دقيقة</span>
                 </div>
 
                 <div class="flex flex-col items-center reveal delay-circle-4">
@@ -245,13 +253,13 @@
                             <circle class="circle-bg" cx="40" cy="40" r="36" />
                             <circle class="circle-progress" cx="40" cy="40" r="36" stroke-dasharray="226.19" stroke-dashoffset="70" />
                         </svg>
-                        <span id="seconds" class="absolute text-base font-tajawal text-bronze font-bold">00</span>
+                        <span id="seconds" class="absolute text-base font-tajawal text-bronze font-bold tracking-normal">00</span>
                     </div>
-                    <span class="text-xs text-gold-600/90 font-medium font-tajawal mt-3">ثانية</span>
+                    <span class="text-xs text-gold-600/90 font-medium font-tajawal mt-3 tracking-normal">ثانية</span>
                 </div>
             </div>
 
-            <p class="text-xs tracking-[0.25em] text-gold-700/80 font-medium font-tajawal uppercase mt-8 reveal px-4">14 . 11 . 2026</p>
+            <p class="text-xs text-gold-700/80 font-medium font-tajawal uppercase mt-8 reveal px-4 tracking-normal">14 . 11 . 2026</p>
 
             <div class="w-full mt-6 reveal leading-none">
                 <img src="images/drape.png" alt="زخرفة كريستال" class="w-full h-auto block object-cover">
@@ -262,7 +270,7 @@
         <section id="details" class="py-14 px-6 bg-[#eae3dc] text-center reveal">
             <div class="max-w-xs mx-auto space-y-6">
                 <div class="space-y-2">
-                    <p class="text-xs tracking-[0.25em] text-gold-700/80 font-medium font-tajawal uppercase">جدول المواعيد</p>
+                    <p class="text-xs text-gold-700/80 font-medium font-tajawal uppercase tracking-normal">جدول المواعيد</p>
                     <div class="flex items-center justify-center">
                         <img src="images/divider.png" alt="فاصل زخرفي" class="w-28 h-auto object-contain opacity-75">
                     </div>
@@ -273,28 +281,28 @@
                 </div>
 
                 <div class="space-y-2">
-                    <p class="text-xs tracking-[0.25em] text-gold-700/80 font-medium font-tajawal uppercase">حفل الزفاف واستقبال الضيوف</p>
+                    <p class="text-xs text-gold-700/80 font-medium font-tajawal uppercase tracking-normal">حفل الزفاف واستقبال الضيوف</p>
                     <div class="flex items-center justify-center">
                         <img src="images/divider.png" alt="فاصل زخرفي" class="w-28 h-auto object-contain opacity-75">
                     </div>
                 </div>
 
                 <div>
-                    <p class="text-xl font-bold font-tajawal text-gold-700 tracking-wider">19:30</p>
-                    <p class="text-xs text-gold-600/80 mt-0.5 font-tajawal font-medium">مساءً</p>
+                    <p class="text-xl font-bold font-tajawal text-gold-700 tracking-normal">19:30</p>
+                    <p class="text-xs text-gold-600/80 mt-0.5 font-tajawal font-medium tracking-normal">مساءً</p>
                 </div>
 
-                <div class="space-y-1.5 text-xs text-bronze/85 font-tajawal">
+                <div class="space-y-1.5 text-xs text-bronze/85 font-tajawal tracking-normal">
                     <p class="font-bold text-xs text-gold-700">قصر الإمارات ماندارين أورينتال</p>
                     <p class="text-xs leading-relaxed text-bronze/75">أبوظبي - الإمارات العربية المتحدة</p>
-                    <p class="text-xs tracking-widest text-gold-700/80 pt-1 font-medium">14 . 11 . 2026</p>
+                    <p class="text-xs text-gold-700/80 pt-1 font-medium tracking-normal">14 . 11 . 2026</p>
                 </div>
 
                 <div class="pt-3 flex flex-col gap-2.5 max-w-[220px] mx-auto">
-                    <a href="https://maps.google.com/?q=Emirates+Palace+Mandarin+Oriental+Abu+Dhabi" target="_blank" class="w-full py-2.5 px-6 border border-gold-600/60 hover:bg-gold-500/10 text-gold-700 rounded-full text-center text-xs tracking-wider font-tajawal font-medium uppercase transition duration-300">
+                    <a href="https://maps.google.com/?q=Emirates+Palace+Mandarin+Oriental+Abu+Dhabi" target="_blank" class="w-full py-2.5 px-6 border border-gold-600/60 hover:bg-gold-500/10 text-gold-700 rounded-full text-center text-xs font-tajawal font-medium uppercase transition duration-300 tracking-normal">
                         موقع القاعة (Map)
                     </a>
-                    <a id="addToCalendar" href="#" class="w-full py-2 px-4 text-gold-700/80 hover:text-gold-700 rounded-full text-center text-xs font-medium font-tajawal transition flex items-center justify-center gap-1.5">
+                    <a id="addToCalendar" href="#" class="w-full py-2 px-4 text-gold-700/80 hover:text-gold-700 rounded-full text-center text-xs font-medium font-tajawal transition flex items-center justify-center gap-1.5 tracking-normal">
                         <i data-lucide="calendar-plus" class="w-3.5 h-3.5"></i>
                         إضافة للتقويم
                     </a>
@@ -305,7 +313,7 @@
         <!-- PROGRAMME SECTION -->
         <section id="programme" class="py-12 px-4 bg-[#eae3dc] relative overflow-hidden reveal">
             <div class="text-center mb-10 relative z-10 space-y-2">
-                <p class="text-xs tracking-[0.25em] text-gold-700/80 font-medium font-tajawal uppercase">برنامج الحفل</p>
+                <p class="text-xs text-gold-700/80 font-medium font-tajawal uppercase tracking-normal">برنامج الحفل</p>
                 <div class="flex items-center justify-center">
                     <img src="images/divider.png" alt="فاصل زخرفي" class="w-28 h-auto object-contain opacity-75">
                 </div>
@@ -337,14 +345,14 @@
                 <!-- ITEM 1: 7:30 PM -->
                 <div class="relative z-10 w-full flex justify-end text-right pr-4">
                     <div class="w-[200px] space-y-1 bg-[#eae3dc]/80 backdrop-blur-[2px] p-2 rounded-xl">
-                        <div class="flex items-baseline justify-start gap-1 font-tajawal text-gold-700 font-bold">
+                        <div class="flex items-baseline justify-start gap-1 font-tajawal text-gold-700 font-bold tracking-normal">
                             <span class="text-lg">7:30</span>
                             <span class="text-xs">م</span>
                         </div>
-                        <h4 class="text-xs font-bold text-bronze font-tajawal leading-snug">الاستقبال والترحيب بالضيوف</h4>
-                        <p class="text-xs text-bronze/75 font-tajawal">في بهو قصر الإمارات الكبير</p>
+                        <h4 class="text-xs font-bold text-bronze font-tajawal leading-snug tracking-normal">الاستقبال والترحيب بالضيوف</h4>
+                        <p class="text-xs text-bronze/75 font-tajawal tracking-normal">في بهو قصر الإمارات الكبير</p>
                         <div class="pt-1">
-                            <a href="https://maps.google.com/?q=Emirates+Palace+Mandarin+Oriental+Abu+Dhabi" target="_blank" class="inline-block px-3 py-0.5 border border-gold-500/50 rounded-full text-xs text-gold-700 bg-white/50 hover:bg-gold-500/10 transition font-tajawal shadow-sm">
+                            <a href="https://maps.google.com/?q=Emirates+Palace+Mandarin+Oriental+Abu+Dhabi" target="_blank" class="inline-block px-3 py-0.5 border border-gold-500/50 rounded-full text-xs text-gold-700 bg-white/50 hover:bg-gold-500/10 transition font-tajawal shadow-sm tracking-normal">
                                 مشاهدة الخريطة
                             </a>
                         </div>
@@ -354,14 +362,14 @@
                 <!-- ITEM 2: 9:00 PM -->
                 <div class="relative z-10 w-full flex justify-start text-right pl-4">
                     <div class="w-[200px] space-y-1 bg-[#eae3dc]/80 backdrop-blur-[2px] p-2 rounded-xl">
-                        <div class="flex items-baseline justify-start gap-1 font-tajawal text-gold-700 font-bold">
+                        <div class="flex items-baseline justify-start gap-1 font-tajawal text-gold-700 font-bold tracking-normal">
                             <span class="text-lg">9:00</span>
                             <span class="text-xs">م</span>
                         </div>
-                        <h4 class="text-xs font-bold text-bronze font-tajawal leading-snug">الزفة و دخول العروسين</h4>
-                        <p class="text-xs text-bronze/75 font-tajawal">في قاعة المجلس الكبرى</p>
+                        <h4 class="text-xs font-bold text-bronze font-tajawal leading-snug tracking-normal">الزفة و دخول العروسين</h4>
+                        <p class="text-xs text-bronze/75 font-tajawal tracking-normal">في قاعة المجلس الكبرى</p>
                         <div class="pt-1">
-                            <a href="https://maps.google.com/?q=Emirates+Palace+Mandarin+Oriental+Abu+Dhabi" target="_blank" class="inline-block px-3 py-0.5 border border-gold-500/50 rounded-full text-xs text-gold-700 bg-white/50 hover:bg-gold-500/10 transition font-tajawal shadow-sm">
+                            <a href="https://maps.google.com/?q=Emirates+Palace+Mandarin+Oriental+Abu+Dhabi" target="_blank" class="inline-block px-3 py-0.5 border border-gold-500/50 rounded-full text-xs text-gold-700 bg-white/50 hover:bg-gold-500/10 transition font-tajawal shadow-sm tracking-normal">
                                 مشاهدة الخريطة
                             </a>
                         </div>
@@ -371,14 +379,14 @@
                 <!-- ITEM 3: 10:30 PM -->
                 <div class="relative z-10 w-full flex justify-end text-right pr-4">
                     <div class="w-[200px] space-y-1 bg-[#eae3dc]/80 backdrop-blur-[2px] p-2 rounded-xl">
-                        <div class="flex items-baseline justify-start gap-1 font-tajawal text-gold-700 font-bold">
+                        <div class="flex items-baseline justify-start gap-1 font-tajawal text-gold-700 font-bold tracking-normal">
                             <span class="text-lg">10:30</span>
                             <span class="text-xs">م</span>
                         </div>
-                        <h4 class="text-xs font-bold text-bronze font-tajawal leading-snug">مأدبة العشاء وعقد القران</h4>
-                        <p class="text-xs text-bronze/75 font-tajawal">في قاعة احتفالات الاتحاد، قصر الإمارات</p>
+                        <h4 class="text-xs font-bold text-bronze font-tajawal leading-snug tracking-normal">مأدبة العشاء وعقد القران</h4>
+                        <p class="text-xs text-bronze/75 font-tajawal tracking-normal">في قاعة احتفالات الاتحاد، قصر الإمارات</p>
                         <div class="pt-1">
-                            <a href="https://maps.google.com/?q=Emirates+Palace+Mandarin+Oriental+Abu+Dhabi" target="_blank" class="inline-block px-3 py-0.5 border border-gold-500/50 rounded-full text-xs text-gold-700 bg-white/50 hover:bg-gold-500/10 transition font-tajawal shadow-sm">
+                            <a href="https://maps.google.com/?q=Emirates+Palace+Mandarin+Oriental+Abu+Dhabi" target="_blank" class="inline-block px-3 py-0.5 border border-gold-500/50 rounded-full text-xs text-gold-700 bg-white/50 hover:bg-gold-500/10 transition font-tajawal shadow-sm tracking-normal">
                                 مشاهدة الخريطة
                             </a>
                         </div>
@@ -388,14 +396,14 @@
                 <!-- ITEM 4: 12:30 AM -->
                 <div class="relative z-10 w-full flex justify-start text-right pl-4">
                     <div class="w-[200px] space-y-1 bg-[#eae3dc]/80 backdrop-blur-[2px] p-2 rounded-xl">
-                        <div class="flex items-baseline justify-start gap-1 font-tajawal text-gold-700 font-bold">
+                        <div class="flex items-baseline justify-start gap-1 font-tajawal text-gold-700 font-bold tracking-normal">
                             <span class="text-lg">12:30</span>
                             <span class="text-xs">ص</span>
                         </div>
-                        <h4 class="text-xs font-bold text-bronze font-tajawal leading-snug">الاحتفاء وزفة العروسين</h4>
-                        <p class="text-xs text-bronze/75 font-tajawal">في الحديقة الملكية المطلة على البحر</p>
+                        <h4 class="text-xs font-bold text-bronze font-tajawal leading-snug tracking-normal">الاحتفاء وزفة العروسين</h4>
+                        <p class="text-xs text-bronze/75 font-tajawal tracking-normal">في الحديقة الملكية المطلة على البحر</p>
                         <div class="pt-1">
-                            <a href="https://maps.google.com/?q=Emirates+Palace+Mandarin+Oriental+Abu+Dhabi" target="_blank" class="inline-block px-3 py-0.5 border border-gold-500/50 rounded-full text-xs text-gold-700 bg-white/50 hover:bg-gold-500/10 transition font-tajawal shadow-sm">
+                            <a href="https://maps.google.com/?q=Emirates+Palace+Mandarin+Oriental+Abu+Dhabi" target="_blank" class="inline-block px-3 py-0.5 border border-gold-500/50 rounded-full text-xs text-gold-700 bg-white/50 hover:bg-gold-500/10 transition font-tajawal shadow-sm tracking-normal">
                                 مشاهدة الخريطة
                             </a>
                         </div>
@@ -409,7 +417,7 @@
         <section id="memories" class="py-12 px-6 bg-[#eae3dc] text-center reveal">
             <div class="max-w-xs mx-auto space-y-6">
                 <div class="space-y-2">
-                    <p class="text-xs tracking-[0.25em] text-gold-700/80 font-medium font-tajawal uppercase">لحظات من الذاكرة</p>
+                    <p class="text-xs text-gold-700/80 font-medium font-tajawal uppercase tracking-normal">لحظات من الذاكرة</p>
                     <div class="flex items-center justify-center">
                         <img src="images/divider.png" alt="فاصل زخرفي" class="w-28 h-auto object-contain opacity-75">
                     </div>
@@ -429,7 +437,7 @@
 
                 <div class="space-y-2">
                     <h3 class="text-3xl font-normal font-free-calligraphy text-gold-700">حكايات تُحفظ في القلب</h3>
-                    <p class="text-xs font-tajawal text-bronze/85 leading-relaxed px-2 font-normal">
+                    <p class="text-xs font-tajawal text-bronze/85 leading-relaxed px-2 font-normal tracking-normal">
                         خطوات جمعتنا ورسخت أمل الغد، نسعد بشراكتكم لنا في توثيق أسمى لحظات عمرنا.
                     </p>
                 </div>
@@ -440,31 +448,31 @@
         <section id="rsvp" class="py-8 px-6 bg-[#eae3dc] reveal">
             <div class="max-w-[280px] mx-auto space-y-5">
                 <div class="text-center space-y-2">
-                    <p class="text-xs tracking-[0.25em] text-gold-700/80 font-medium font-tajawal uppercase">تأكيد الحضور</p>
+                    <p class="text-xs text-gold-700/80 font-medium font-tajawal uppercase tracking-normal">تأكيد الحضور</p>
                     <div class="flex items-center justify-center">
                         <img src="images/divider.png" alt="فاصل زخرفي" class="w-28 h-auto object-contain opacity-75">
                     </div>
                 </div>
 
                 <div class="text-center">
-                    <p class="text-xs text-gold-700/90 font-tajawal font-normal tracking-wide">
+                    <p class="text-xs text-gold-700/90 font-tajawal font-normal tracking-normal">
                         يرجى تأكيد حضوركم قبل 12 أغسطس
                     </p>
                 </div>
 
                 <form id="rsvpForm" class="space-y-4">
                     <div class="relative">
-                        <input type="text" id="guestName" required placeholder="الاسم الأول، اسم العائلة" class="w-full bg-transparent border-b border-gold-700/40 pb-1 text-xs text-bronze placeholder-gold-700/50 focus:outline-none focus:border-gold-700 font-tajawal transition">
+                        <input type="text" id="guestName" required placeholder="الاسم الأول، اسم العائلة" class="w-full bg-transparent border-b border-gold-700/40 pb-1 text-xs text-bronze placeholder-gold-700/50 focus:outline-none focus:border-gold-700 font-tajawal transition tracking-normal">
                     </div>
 
                     <div class="relative">
-                        <input type="number" id="guestsCount" min="1" max="10" required placeholder="عدد الضيوف" class="w-full bg-transparent border-b border-gold-700/40 pb-1 text-xs text-bronze placeholder-gold-700/50 focus:outline-none focus:border-gold-700 font-tajawal transition">
+                        <input type="number" id="guestsCount" min="1" max="10" required placeholder="عدد الضيوف" class="w-full bg-transparent border-b border-gold-700/40 pb-1 text-xs text-bronze placeholder-gold-700/50 focus:outline-none focus:border-gold-700 font-tajawal transition tracking-normal">
                     </div>
 
                     <div class="grid grid-cols-2 gap-2 pt-1">
                         <div>
                             <input type="radio" id="attending" name="attendance" value="حضور" class="hidden custom-radio" checked>
-                            <label for="attending" class="flex items-center justify-center gap-1.5 py-1.5 px-2 border border-gold-700/30 rounded-full cursor-pointer transition text-xs text-gold-700/90 font-tajawal text-center">
+                            <label for="attending" class="flex items-center justify-center gap-1.5 py-1.5 px-2 border border-gold-700/30 rounded-full cursor-pointer transition text-xs text-gold-700/90 font-tajawal text-center tracking-normal">
                                 <span class="w-2 h-2 rounded-full border border-gold-700/60 flex-shrink-0 radio-circle transition"></span>
                                 <span>سأحضر بكل سرور</span>
                             </label>
@@ -472,7 +480,7 @@
 
                         <div>
                             <input type="radio" id="declining" name="attendance" value="اعتذار" class="hidden custom-radio">
-                            <label for="declining" class="flex items-center justify-center gap-1.5 py-1.5 px-2 border border-gold-700/30 rounded-full cursor-pointer transition text-xs text-gold-700/90 font-tajawal text-center">
+                            <label for="declining" class="flex items-center justify-center gap-1.5 py-1.5 px-2 border border-gold-700/30 rounded-full cursor-pointer transition text-xs text-gold-700/90 font-tajawal text-center tracking-normal">
                                 <span class="w-2 h-2 rounded-full border border-gold-700/60 flex-shrink-0 radio-circle transition"></span>
                                 <span>لن أتمكن من الحضور.</span>
                             </label>
@@ -480,7 +488,7 @@
                     </div>
 
                     <div class="pt-1">
-                        <button type="submit" class="w-full py-2 border border-gold-700/40 hover:bg-gold-500/10 text-gold-700 font-medium rounded-full transition text-xs tracking-wider font-tajawal uppercase">
+                        <button type="submit" class="w-full py-2 border border-gold-700/40 hover:bg-gold-500/10 text-gold-700 font-medium rounded-full transition text-xs font-tajawal uppercase tracking-normal">
                             تأكيد
                         </button>
                     </div>
@@ -488,8 +496,8 @@
 
                 <div id="thankYouMessage" class="hidden text-center py-4 space-y-1.5 bg-gold-50/50 rounded-xl">
                     <i data-lucide="heart" class="w-6 h-6 text-gold-500 mx-auto fill-gold-500"></i>
-                    <h3 class="text-xs font-bold text-gold-700 font-tajawal">تم استلام ردكم بنجاح!</h3>
-                    <p class="text-xs text-bronze/80 font-tajawal">شكراً لكم، ننتظركم بشوق لنحتفل معاً.</p>
+                    <h3 class="text-xs font-bold text-gold-700 font-tajawal tracking-normal">تم استلام ردكم بنجاح!</h3>
+                    <p class="text-xs text-bronze/80 font-tajawal tracking-normal">شكراً لكم، ننتظركم بشوق لنحتفل معاً.</p>
                 </div>
             </div>
         </section>
@@ -507,7 +515,7 @@
                     <img src="images/divider.png" alt="فاصل زخرفي" class="w-28 h-auto object-contain opacity-80">
                 </div>
 
-                <p class="text-xs tracking-[0.25em] text-gold-700/90 font-medium font-tajawal uppercase">
+                <p class="text-xs text-gold-700/90 font-medium font-tajawal uppercase tracking-normal">
                     14 . 11 . 2026
                 </p>
             </div>
@@ -522,12 +530,13 @@
         const videoCover = document.getElementById('videoCover');
         const coverVideo = document.getElementById('coverVideo');
         const sealClickArea = document.getElementById('sealClickArea');
-        const skipBtn = document.getElementById('skipBtn');
+        const bgMusic = document.getElementById('bgMusic');
 
-        // Force Video Load to display first frame as poster on mobile screens
+        // Preload Video & Music
         window.addEventListener('DOMContentLoaded', () => {
             coverVideo.muted = true;
             coverVideo.load();
+            bgMusic.load();
         });
 
         // Function to smoothly hide video cover
@@ -535,35 +544,36 @@
             videoCover.classList.add('fade-out');
         }
 
-        // Mobile touch & click handler to play video reliably
-        async function playCoverVideo(e) {
+        // Mobile touch & click handler to play video and background music synchronously
+        async function playMedia(e) {
             if (e) e.preventDefault();
             
             sealClickArea.style.pointerEvents = 'none'; // Prevent double trigger
-            coverVideo.muted = true; // Ensure muted state for mobile autoplay policy compliance
+            coverVideo.muted = true; // Ensure muted video policy compliance
 
+            // Play background music
+            try {
+                await bgMusic.play();
+            } catch (musicErr) {
+                console.log("Music play blocked:", musicErr);
+            }
+
+            // Play video
             try {
                 await coverVideo.play();
-            } catch (err) {
-                console.log("Mobile playback restriction:", err);
-                // Fallback: If video playback fails entirely, dismiss cover directly
+            } catch (videoErr) {
+                console.log("Video play blocked:", videoErr);
                 dismissCover();
             }
         }
 
-        // Listen for all mobile touch and click events
-        sealClickArea.addEventListener('touchstart', playCoverVideo, { passive: false, once: true });
-        sealClickArea.addEventListener('pointerdown', playCoverVideo, { once: true });
-        sealClickArea.addEventListener('click', playCoverVideo, { once: true });
+        // Listen for user interaction events across browsers
+        sealClickArea.addEventListener('touchstart', playMedia, { passive: false, once: true });
+        sealClickArea.addEventListener('pointerdown', playMedia, { once: true });
+        sealClickArea.addEventListener('click', playMedia, { once: true });
 
-        // Automatically transition to main invitation page when video finishes
+        // Automatically transition to main invitation page when cover video finishes
         coverVideo.addEventListener('ended', dismissCover);
-
-        // Skip button handler
-        skipBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            dismissCover();
-        });
 
         // Scroll Reveal Animation
         const revealElements = document.querySelectorAll('.reveal');
